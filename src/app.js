@@ -1,8 +1,8 @@
 const express = require('express')
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
 require('./db/mongoose')
-const signInRoute = require('./routers/signIn')
-const signUpRoute = require('./routers/singUp')
+const postRequests= require('./routers/postRequests')
 const app = express()
 const port = process.env.PORT || 1000
 
@@ -10,8 +10,10 @@ const port = process.env.PORT || 1000
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(signInRoute)
-app.use(signUpRoute)
+app.use(postRequests)
+app.use(cors({
+	origin: 'http://localhost:3001'
+}))
 
 app.listen(port, () => {
 	console.log(`server is up on port ${port}`)

@@ -1,10 +1,8 @@
 const User = require('../models/user')
-const express = require('express')
-const router = express.Router()
 const {SWW, PDMError} = require('../consts/constErrors')
 const bcrypt = require('bcrypt')
 
-router.post('/user/signup', async (req, res) => {
+const signUpRequest = async (req, res) => {
 	try {
 		const userExists = await User.findOne({login: req.body.login})
 		if(userExists) {
@@ -22,6 +20,6 @@ router.post('/user/signup', async (req, res) => {
 	} catch (e) {
 		res.status(500).send(e.message)
 	}
-})
+}
 
-module.exports = router
+module.exports = signUpRequest
