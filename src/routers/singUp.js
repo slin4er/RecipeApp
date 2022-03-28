@@ -1,7 +1,7 @@
 const User = require('../models/user')
 const express = require('express')
 const router = express.Router()
-const {SWW} = require('../consts/constErrors')
+const {SWW, PDMError} = require('../consts/constErrors')
 const bcrypt = require('bcrypt')
 
 router.post('/user/signup', async (req, res) => {
@@ -10,6 +10,7 @@ router.post('/user/signup', async (req, res) => {
 		if(userExists) {
 			throw new Error(SWW)
 		}
+		if(req.body.password !== req.body.passwordAgain) throw new Error(PDMError)
 		const password = await bcrypt.hash(req.body.password, 8)
 		const user = await new User({
 			...req.body,
